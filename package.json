@@ -1,0 +1,26 @@
+{
+  "name": "typescript-api",
+  "version": "1.0.0",
+  "description": "Typescript node api",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && node dist/src/main.js",
+    "lint": "eslint ./src ./test --ext .ts",
+    "lint:fix": "eslint ./src ./test --ext .ts --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "realrgt",
+  "license": "ISC",
+  "dependencies": {
+    "module-alias": "^2.2.2"
+  },
+  "devDependencies": {
+    "@types/module-alias": "^2.0.0",
+    "@types/node": "^15.6.1",
+    "@typescript-eslint/eslint-plugin": "^4.26.0",
+    "@typescript-eslint/parser": "^4.26.0",
+    "eslint": "^7.27.0",
+    "typescript": "^4.3.2"
+  }
+}
