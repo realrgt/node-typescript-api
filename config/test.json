@@ -1,0 +1,7 @@
+{
+  "App": {
+    "resources": {
+      "apiToken": "test-token"
+    }
+  }
+}
