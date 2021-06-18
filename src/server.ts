@@ -38,4 +38,13 @@ export class SetupServer extends Server {
   public getApp(): Application {
     return this.app;
   }
+
+  public start(): void {
+    this.app.listen(this.port, () => {
+      console.info(
+        'Server in port ' + this.port + ': \x1b[32m%s\x1b[0m',
+        'online'
+      );
+    });
+  }
 }
