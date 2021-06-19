@@ -1,4 +1,4 @@
-import { User } from '@src/models/user';
+import { comparePasswords, User } from '@src/models/user';
 
 describe('Users test functional', () => {
   beforeAll(async () => await User.deleteMany({}));
@@ -14,7 +14,16 @@ describe('Users test functional', () => {
       const response = await global.testRequest.post('/users').send(newUser);
 
       expect(response.status).toBe(201);
-      expect(response.body).toEqual(expect.objectContaining(newUser));
+      await expect(
+        comparePasswords(newUser.password, response.body.password)
+      ).resolves.toBeTruthy();
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          ...newUser,
+          ...{ password: response.body.password },
+          // ...{ password: expect.any(String) },
+        })
+      );
     });
 
     test('should return a 422 when there is a validation error', async () => {
