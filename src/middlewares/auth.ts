@@ -3,13 +3,18 @@ import { NextFunction, Request, Response } from 'express';
 
 export function authMiddleware(
   req: Partial<Request>,
-  _: Partial<Response>,
+  res: Partial<Response>,
   next: NextFunction
 ): void {
-  const token = req.headers?.['x-access-token'];
-  const decoded = AuthService.decodeToken(token as string);
+  try {
+    const token = req.headers?.['x-access-token'];
+    const decoded = AuthService.decodeToken(token as string);
 
-  req.decoded = decoded;
+    req.decoded = decoded;
 
-  next();
+    next();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    res.status?.(401).send({ code: 401, error: err.message });
+  }
 }
