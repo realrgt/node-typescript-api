@@ -21,8 +21,8 @@ describe('Users test functional', () => {
       expect(response.body).toEqual(
         expect.objectContaining({
           ...newUser,
-          ...{ password: response.body.password },
-          // ...{ password: expect.any(String) },
+          // ...{ password: response.body.password },
+          ...{ password: expect.any(String) },
         })
       );
     });

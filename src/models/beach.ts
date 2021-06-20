@@ -13,6 +13,7 @@ export interface Beach {
   lng: number;
   name: string;
   position: BeachPosition;
+  user: string;
 }
 
 const schema = new mongoose.Schema(
@@ -28,7 +29,7 @@ const schema = new mongoose.Schema(
       transform: (_, ret) => {
         ret.id = ret._id;
         delete ret._id;
-        delete ret._v;
+        delete ret.__v;
       },
     },
   }
