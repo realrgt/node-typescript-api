@@ -59,4 +59,57 @@ describe('Users test functional', () => {
       });
     });
   });
+
+  describe('When authenticating a user', () => {
+    test('should generate a token for a valid user', async () => {
+      // arrange
+      const newUser = {
+        name: 'John Wick',
+        email: 'wick.john@email.com',
+        password: '123456',
+      };
+      const user = new User(newUser);
+
+      // act
+      await user.save();
+
+      const response = await global.testRequest
+        .post('/users/authenticate')
+        .send({ email: newUser.email, password: newUser.password });
+
+      // assert
+      expect(response.body).toEqual(
+        expect.objectContaining({ token: expect.any(String) })
+      );
+    });
+
+    test('should return UNAUTHORIZED when the user with the provided email is not found', async () => {
+      // act
+      const response = await global.testRequest
+        .post('/users/authenticate')
+        .send({ email: 'some-email@mail.com', password: '1234' });
+
+      // assert
+      expect(response.status).toBe(401);
+    });
+
+    test('should return UNAUTHORIZED when the user is found but the password does not match', async () => {
+      // arrange
+      const newUser = {
+        name: 'Jane Wick',
+        email: 'jane@wick@mail.com',
+        password: '1234',
+      };
+
+      // act
+      await new User(newUser).save();
+
+      const response = await global.testRequest
+        .post('/users/authenticate')
+        .send({ email: newUser.email, password: 'different password' });
+
+      // assert
+      expect(response.status).toBe(401);
+    });
+  });
 });
